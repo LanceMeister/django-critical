@@ -8,7 +8,7 @@ from cssmin import cssmin
 from django.core.cache import cache
 from django.template import Context
 from django.template.loader import get_template
-
+import base64
 from .marks import (CRITICAL_MARK_BEGIN, CRITICAL_MARK_END, CRITICAL_ASYNC_MARK,
                     CRITICAL_KEY_MARK_BEGIN, CRITICAL_KEY_MARK_END)
 from .parser import extract_css_entries
@@ -32,8 +32,8 @@ class CriticalCssMiddleware(MiddlewareMixin):
         if response.streaming:
             return response
 
-        content = response.content
-        match = CRITICAL_CSS_RE.search(content).encode('utf8')
+        content = base64.b64encode(response.content)
+        match = CRITICAL_CSS_RE.search(content)
 
         if not match:
             return response
