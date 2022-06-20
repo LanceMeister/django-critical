@@ -33,8 +33,7 @@ class CriticalCssMiddleware(MiddlewareMixin):
             return response
 
         content = response.content
-        match = match.encode('utf8')
-        match = CRITICAL_CSS_RE.search(content)
+        match = CRITICAL_CSS_RE.search(content).encode('utf8')
 
         if not match:
             return response
