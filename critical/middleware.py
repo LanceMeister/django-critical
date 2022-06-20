@@ -32,8 +32,8 @@ class CriticalCssMiddleware(MiddlewareMixin):
         if response.streaming:
             return response
 
-        content = base64.b64encode(response.content)
-        match = CRITICAL_CSS_RE.search(content)
+        content = response.content
+        match = base64.b64encode(CRITICAL_CSS_RE.search(content))
 
         if not match:
             return response
