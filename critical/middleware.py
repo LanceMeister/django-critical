@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import hashlib
 import re
+from django.utils.deprecation import MiddlewareMixin
 
 from cssmin import cssmin
 
@@ -25,7 +26,8 @@ CRITICAL_KEY_RE = re.compile(
                                end=re.escape(CRITICAL_KEY_MARK_END)))
 
 
-class CriticalCssMiddleware(object):
+
+class CriticalCssMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
         if response.streaming:
             return response
